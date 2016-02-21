@@ -22,6 +22,11 @@
             android:name=".PreferencesActivity"
             android:label="Earthquake Preferences">
         </activity>
+
+        <provider
+            android:authorities="com.example.lancelot.earthquake.earthquakeprovider"
+            android:name="com.example.lancelot.earthquake.EarthquakeProvider">
+        </provider>
     </application>
 
 </manifest>

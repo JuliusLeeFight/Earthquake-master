@@ -44,8 +44,9 @@ public class Quake {
 
     @Override
     public String toString() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH.mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         String dateString = simpleDateFormat.format(date);
+        //String dateString = date;
         return dateString + ":" + magnitude + "" + details+"11";
     }
 }
