@@ -5,6 +5,12 @@
     android:orientation="vertical"
     tools:context=".EarthquakeActivity">
 
+    <SearchView
+        android:id="@+id/searchView"
+        android:iconifiedByDefault="false"
+        android:background="#FFF"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"></SearchView>
    <fragment
        android:id = "@+id/EarthquakeListFragment"
        android:name="com.example.lancelot.earthquake.EarthquakeListFragment"

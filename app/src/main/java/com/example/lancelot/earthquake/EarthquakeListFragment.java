@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.SimpleCursorAdapter;
@@ -29,7 +28,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -42,8 +40,8 @@ import javax.xml.parsers.ParserConfigurationException;
  * Created by Lancelot on 2016/2/16.
  */
 public class EarthquakeListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
-    ArrayAdapter<Quake> aa;
-    ArrayList<Quake> earthquakes = new ArrayList<Quake>();
+    //ArrayAdapter<Quake> aa;
+    //ArrayList<Quake> earthquakes = new ArrayList<Quake>();
     SimpleCursorAdapter adapter;
     private static final String TAG = "EARTHQUAKE";
     Handler handler = new Handler();
@@ -86,12 +84,6 @@ public class EarthquakeListFragment extends ListFragment implements LoaderManage
 
     public void refreshEarthquake() {
 
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                getLoaderManager().restartLoader(0,null,EarthquakeListFragment.this);
-            }
-        });
 
         URL url;
         try {
@@ -110,7 +102,7 @@ public class EarthquakeListFragment extends ListFragment implements LoaderManage
                 Document dom = db.parse(in);
                 Element docEle = dom.getDocumentElement();
 
-                earthquakes.clear();
+
 
                 NodeList nl = docEle.getElementsByTagName("entry");
                 if (nl != null && nl.getLength() > 0) {
@@ -128,7 +120,6 @@ public class EarthquakeListFragment extends ListFragment implements LoaderManage
                         String point = g.getFirstChild().getNodeValue();
                         String dt = when.getFirstChild().getNodeValue();
                         System.out.println(dt);
-                        //System.out.print("ÈÕÆÚÊÇ.......................:   " + dt);
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
                         Date qdate = new GregorianCalendar(0, 0, 0).getTime();
                         try {
@@ -149,16 +140,8 @@ public class EarthquakeListFragment extends ListFragment implements LoaderManage
 
                         details = details.split(",")[0].trim();
 
-                        final Quake quake = new Quake(qdate, details, l, magnitude, linkString);
-
-                        // Process a newly found earthquake
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                addNewQuake(quake);
-                            }
-                        });
-
+                        Quake quake = new Quake(qdate, details, l, magnitude, linkString);
+                        addNewQuake(quake);
                     }
                 }
             }
@@ -172,6 +155,12 @@ public class EarthquakeListFragment extends ListFragment implements LoaderManage
             Log.d(TAG, "SAX Exception", e);
         } finally {
         }
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                getLoaderManager().restartLoader(0,null,EarthquakeListFragment.this);
+            }
+        });
 
     }
 
