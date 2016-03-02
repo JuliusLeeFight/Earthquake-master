@@ -20,28 +20,31 @@
         </activity>
         <activity
             android:name=".PreferencesActivity"
-            android:label="Earthquake Preferences">
-        </activity>
-        
-        <activity android:name=".EarthquakeSearchResults"
+            android:label="Earthquake Preferences"></activity>
+
+        <activity
+            android:name=".EarthquakeSearchResults"
             android:label="Earthquake Search"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/earthquakes_search" />
         </activity>
+
         <meta-data
             android:name="android.app.default_searchable"
-            android:value=".EarthquakeSearchResults"
-            />
+            android:value=".EarthquakeSearchResults" />
         <provider
-            android:authorities="com.example.lancelot.earthquake.earthquakeprovider"
-            android:name="com.example.lancelot.earthquake.EarthquakeProvider">
-        </provider>
+            android:name="com.example.lancelot.earthquake.EarthquakeProvider"
+            android:authorities="com.example.lancelot.earthquake.earthquakeprovider"></provider>
+
+        <service
+            android:name=".EarthquakeUpdateService"
+            android:enabled="true" />
     </application>
 
 </manifest>

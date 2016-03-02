@@ -13,8 +13,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
-
-import java.sql.SQLException;
+import android.database.SQLException;
 import java.util.HashMap;
 
 /**
@@ -34,6 +33,7 @@ public class EarthquakeProvider extends ContentProvider {
     public static final String KEY_LINK = "link";
 
     private static final HashMap<String, String> SEARCH_PROJECTION_MAP;
+
 
     static {
         SEARCH_PROJECTION_MAP = new HashMap<String, String>();
@@ -123,18 +123,19 @@ public class EarthquakeProvider extends ContentProvider {
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(Uri _uri, ContentValues values) {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
 
         long rowId = database.insert(EarthquakeDatabaseHelper.EARTHQUAKE_TABLE, "quake", values);
         if (rowId > 0) {
-            Uri newUri = ContentUris.withAppendedId(CONTENT_URI, rowId);
+            Uri uri = ContentUris.withAppendedId(CONTENT_URI, rowId);
             getContext().getContentResolver().notifyChange(uri, null);
             return uri;
         }
-        //为什么不能抛出SQL异常
-        return uri;
+
+        throw new SQLException("Failed to insert row into " + _uri);
     }
+
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {

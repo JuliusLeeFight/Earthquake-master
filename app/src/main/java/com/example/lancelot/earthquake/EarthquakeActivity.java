@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 
 
@@ -26,11 +28,14 @@ public class EarthquakeActivity extends Activity {
     public int minimumMagnitude = 0;
     public boolean autoUpdateChecked = false;
     public int updateFreq = 0;
+    Button setting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_earthquake);
+
+        setting = (Button)findViewById(R.id.settingBtn);
 
         updateFromPreferences();
 
@@ -39,6 +44,16 @@ public class EarthquakeActivity extends Activity {
 
         SearchView searchView = (SearchView)findViewById(R.id.searchView);
         searchView.setSearchableInfo(searchableInfo);
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Class  c =Build.VERSION.SDK_INT<Build.VERSION_CODES.HONEYCOMB?PreferencesActivity.class:FragmentPreferences.class;
+                Intent intent = new Intent(EarthquakeActivity.this,c);
+                //Intent intent = new Intent(this,FragmentPreferences.class);
+                startActivityForResult(intent,SHOW_PREFERENCES);
+            }
+        });
     }
 
     @Override
@@ -53,7 +68,7 @@ public class EarthquakeActivity extends Activity {
     private void updateFromPreferences(){
         Context context = getApplicationContext();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        minimumMagnitude = Integer.parseInt(sharedPreferences.getString(PreferencesActivity.PREF_MIN_MAG,"3"));
+        minimumMagnitude = Integer.parseInt(sharedPreferences.getString(PreferencesActivity.PREF_MIN_MAG,"0"));
         updateFreq = Integer.parseInt(sharedPreferences.getString(PreferencesActivity.PREF_UPDATE_FREQ,"60"));
 
 //        int minMagIndex = sharedPreferences.getInt(PreferencesActivity.PREF_MIN_MAG_INDEX,0);
@@ -100,14 +115,14 @@ public class EarthquakeActivity extends Activity {
             updateFromPreferences();
             FragmentManager fm = getFragmentManager();
             final EarthquakeListFragment earthquakeListFragment = (EarthquakeListFragment)fm.findFragmentById(R.id.EarthquakeListFragment);
-            Thread t  = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    earthquakeListFragment.refreshEarthquake();
-                }
-            });
-
-            t.start();
+//            Thread t  = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    earthquakeListFragment.refreshEarthquake();
+//                }
+//            });
+//
+//            t.start();
 //            if (resultCode == RESULT_OK){
 //                updateFromPreferences();
 //                FragmentManager fm = getFragmentManager();

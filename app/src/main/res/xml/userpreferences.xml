@@ -4,7 +4,7 @@
         android:key="PREF_AUTO_UPDATE "
         android:title="Auto fresh"
         android:summary="Select to turn on automatic updating"
-        android:defaultValue="true">
+        android:defaultValue="@bool/updateFlag">
     </CheckBoxPreference>
 
     <ListPreference
@@ -14,7 +14,7 @@
         android:entries="@array/update_freq_options"
         android:entryValues="@array/update_freq_values"
         android:dialogTitle="Refresh frequency"
-        android:defaultValue="60">
+        android:defaultValue="@string/updateFreq">
     </ListPreference>
 
     <ListPreference
@@ -24,7 +24,7 @@
         android:entries="@array/magnitude_options"
         android:entryValues="@array/magnitude"
         android:dialogTitle="Minimum magnitude"
-        android:defaultValue="3">
+        android:defaultValue="@string/minMag">
     </ListPreference>
 
 </PreferenceScreen>
